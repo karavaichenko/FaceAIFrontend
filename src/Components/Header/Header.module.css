@@ -1,0 +1,26 @@
+
+.container {
+    background-color: rgb(29, 69, 248);
+    height: 7vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 4vh;
+    padding-right: 4vh;
+}
+
+.logo {
+    color: white;
+    font-size: 20px;
+    padding-bottom: 1vh;
+}
+
+.user_container {
+    display: flex;
+}
+
+.login {
+    padding-top: 4px;
+    padding-right: 15px;
+    color: white;
+}
