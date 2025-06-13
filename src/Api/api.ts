@@ -65,7 +65,26 @@ export type EmployeesResponseType = {
 export const usersAPI = {
     getUsers: (page: number) => {
         return instance.get<UsersResponseType>(`users?page=${page}`)
+    },
+    addUser: (login: string, password: string, accessLayerId: number) => {
+        return instance.post<RequestResultType>('users', {login, password, accessLayerId})
+    },
+    getUser: (id: number) => {
+        return instance.get<UserResponseType>(`user?id=${id}`)
+    },
+    deleteUser: (id: number) => {
+        return instance.delete<RequestResultType>(`user?id=${id}`)
+    },
+    setNewPassword: (id: number, password: string) => {
+        return instance.post<RequestResultType>('user', {id, password})
+    },
+    setAccessLayer: (id: number, accessLayerId: number) => {
+        return instance.put<RequestResultType>('user', {id, accessLayerId})
     }
+}
+
+type RequestResultType = {
+    resultCode: number
 }
 
 type UserResponseType = {

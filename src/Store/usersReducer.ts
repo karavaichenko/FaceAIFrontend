@@ -13,7 +13,8 @@ type UsersStateType = {
     resultCode: number,
     count: number,
     users: Array<UserType>,
-    page: number
+    page: number,
+    currentUser: UserType | null
 }
 
 
@@ -28,7 +29,8 @@ const initialState: UsersStateType = {
     resultCode: -1,
     count: 0,
     users: [],
-    page: 1
+    page: 1,
+    currentUser: null
 }
 
 const usersSlice = createSlice({
@@ -42,11 +44,25 @@ const usersSlice = createSlice({
         },
         setPage: (state, page: PayloadAction<number>) => {
             state.page = page.payload
+        },
+        setResultCode: (state, resultCode: PayloadAction<number>) => {
+            state.resultCode = resultCode.payload
+        },
+        setCurrentUser: (state, user: PayloadAction<UserType>) => {
+            state.currentUser = user.payload
+        },
+        deleteUser: (state) => {
+            state.currentUser = null
+        },
+        setUserAccessLayer: (state, accessLayer: PayloadAction<number>) => {
+            if (state.currentUser !== null) {
+                state.currentUser.accessLayer = accessLayer.payload
+            }
         }
     }
 })
 
-export const {setUsersState} = usersSlice.actions
+export const {setUsersState, setResultCode, setCurrentUser, deleteUser, setUserAccessLayer} = usersSlice.actions
 
 export const getUsers = (page: number): AppThunk => (dispatch) => {
     usersAPI.getUsers(page)
@@ -60,6 +76,44 @@ export const getUsers = (page: number): AppThunk => (dispatch) => {
     })
 }
 
+export const addUserThunk = (login: string, password: string, accesslayerId: number): AppThunk => (dispatch) => {
+    usersAPI.addUser(login, password, accesslayerId)
+    .then((data) => {
+        dispatch(setResultCode(data.data.resultCode))
+    })
+}
 
+export const getUserThunk = (id: number): AppThunk => (dispatch) => {
+    usersAPI.getUser(id)
+    .then((data) => {
+        dispatch(setCurrentUser(data.data))
+    })
+}
+
+export const deleteUserThunk = (id: number): AppThunk => (dispatch) => {
+    usersAPI.deleteUser(id)
+    .then((data) => {
+        if (data.data.resultCode === 0) {
+            dispatch(deleteUser())
+        } else {
+            // 
+        }
+    })
+} 
+
+export const setNewPasswordThunk = (id: number, password: string): AppThunk => (dispatch) => {
+    usersAPI.setNewPassword(id, password)
+    .then((data) => {
+        dispatch(setResultCode(data.data.resultCode))
+    })
+}
+
+export const setUserAccessThunk = (id: number, accessLayerId: number): AppThunk => (dispatch) => {
+    usersAPI.setAccessLayer(id, accessLayerId)
+    .then((data) => {
+        dispatch(setResultCode(data.data.resultCode))
+        dispatch(setUserAccessLayer(accessLayerId))
+    })
+}
 
 export default usersSlice

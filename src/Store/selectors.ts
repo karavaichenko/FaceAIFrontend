@@ -15,3 +15,11 @@ export const selectEmployeesState = (state: RootState) => {
 export const selectUsersState = (state: RootState) => {
     return state.users
 }
+
+export const selectCurrentUser = (state: RootState) => {
+    return state.users.currentUser
+}
+
+export const selectUserResultCode = (state: RootState) => {
+    return state.users.resultCode
+}

@@ -14,7 +14,6 @@ type LogsStateType = {
     resultCode: number,
     count: number,
     logs: Array<LogType>,
-    page: number
 }
 
 
@@ -29,7 +28,6 @@ const initialState: LogsStateType = {
     resultCode: -1,
     count: 0,
     logs: [],
-    page: 1
 }
 
 const accessLogSlice = createSlice({
@@ -41,9 +39,6 @@ const accessLogSlice = createSlice({
             state.resultCode = newState.payload.resultCode
             state.logs = newState.payload.logs
         },
-        setPage: (state, page: PayloadAction<number>) => {
-            state.page = page.payload
-        }
     }
 })
 

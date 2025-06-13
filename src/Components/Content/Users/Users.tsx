@@ -1,14 +1,18 @@
-import { Pagination } from "antd"
+import { Button, Pagination } from "antd"
 import { useSelector } from "react-redux"
 import { useAppDispatch } from "../../../Store/hooks"
 import Menu from "../Menu/Menu"
 import s from './Users.module.css'
 import { selectUsersState } from "../../../Store/selectors"
-import { useEffect } from "react"
+import { useEffect, type SetStateAction } from "react"
 import { getUsers } from "../../../Store/usersReducer"
 import { Link, useSearchParams } from "react-router-dom"
 
-const Users = () => {
+type PropsType = {
+    setMode: React.Dispatch<SetStateAction<boolean>>
+}
+
+const Users = (props: PropsType) => {
 
     const dispatch = useAppDispatch()
     const state = useSelector(selectUsersState)
@@ -23,16 +27,16 @@ const Users = () => {
     }
 
     useEffect(() => {
-        dispatch(getUsers(0))
+        dispatch(getUsers(page))
     }, [])
 
 
     const usersElem = state.users.map((e) => {
         return (
-            <Link to={`users?page=${e.id}`} className={s.item}>
+            <Link to={`/user?id=${e.id}`} className={s.item}>
                 <div className={s.item_record}>{e.id}</div>
                 <div className={s.item_record}>{e.login}</div>
-                <div className={s.item_record}>{e.accessLayer}</div>
+                <div className={s.item_record}>{e.accessLayer === 0 ? "Полные" : "Частичные"}</div>
             </Link>
         )
     })
@@ -47,6 +51,9 @@ const Users = () => {
                     <h4 className={s.header_item}>Права доступа</h4>
                 </div>
                 {usersElem}
+                <div className={s.add_btn}>
+                    <Button onClick={() => {props.setMode(true)}} type="primary" size="large">Добавить</Button>
+                </div>
                 <div className={s.paginator}>
                     <Pagination onChange={onPageChange} total={state.count} current={page}/>
                 </div>

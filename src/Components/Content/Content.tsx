@@ -1,8 +1,10 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import s from './Content.module.css'
 import AccessLog from './AccessLog/AccessLog';
-import Users from './Users/Users';
 import Employees from './Employees/Employees';
+import UsersContainer from './Users/UsersContainer';
+import { ProtectedRoute } from '../Containers/ProtectedRoute';
+import CurrentUser from './Users/CurrentUser/CurrentUser';
 
 const Content = () => {
 
@@ -13,11 +15,27 @@ const Content = () => {
         },
         {
             path: "/users",
-            Component: Users
+            element: (
+                <ProtectedRoute requiredAccessLevel={0}>
+                    <UsersContainer />
+                </ProtectedRoute>
+            )
         },
         {
             path: "/employees",
-            Component: Employees
+            element: (
+                <ProtectedRoute requiredAccessLevel={0}>
+                    <Employees />
+                </ProtectedRoute>
+            )
+        },
+        {
+            path: "/user",
+            element: (
+                <ProtectedRoute requiredAccessLevel={0}>
+                    <CurrentUser />
+                </ProtectedRoute>
+            )
         }
     ]);
 
@@ -25,7 +43,6 @@ const Content = () => {
 
     return (
         <div className={s.container}>
-            {/* <Menu /> */}
             <RouterProvider router={router} />
         </div>
     )

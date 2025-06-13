@@ -69,5 +69,65 @@
 
 .paginator {
     margin: 0 auto;
+    /* margin-top: auto; */
+}
+
+.add_btn {
+    /* margin: 1rem auto; */
     margin-top: auto;
+    margin-left: auto;
+}
+
+.container_add {
+    align-items: center;
+    justify-content: center;
+    height: 93vh;
+    display: flex;
+    text-align: center;
+    background-color: rgb(240, 240, 240);
+}
+
+.form_container {
+    box-shadow: 0 2px 16px rgba(0,0,0,.08);
+    width: 20vw;
+    border-radius: 12px;
+    padding: 1.5rem 3rem;
+    background-color: white;
+    margin-bottom: 5vh;
+}
+
+.fit_warning {
+    margin-bottom: 1rem;
+}
+
+.field {
+    width: fit-content;
+    margin: 1.5rem auto;
+}
+
+.input {
+    width: 20vw;
+}
+
+.submit {
+    /* margin-top: 2rem; */
+    margin: 0.5rem;
+    width: fit-content;
+}
+
+.checkbox {
+    /* width: 10rem; */
+    height: 1.5rem;
+}
+
+.checkbox_field {
+    width: fit-content;
+    margin: 0 auto;
+    margin-top: -1rem;
+}
+
+.btn_container {
+    display: flex;
+    /* margin-top: -1rem; */
+    justify-content: center;
 }

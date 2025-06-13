@@ -14,7 +14,6 @@ type EmployeesStateType = {
     resultCode: number,
     count: number,
     employees: Array<EmployeeType>,
-    page: number
 }
 
 
@@ -28,7 +27,6 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 const initialState: EmployeesStateType = {
     resultCode: -1,
     count: 0,
-    page: 1,
     employees: []
 }
 
@@ -41,9 +39,6 @@ const employeesSlice = createSlice({
             state.resultCode = newState.payload.resultCode
             state.employees = newState.payload.employees
         },
-        setPage: (state, page: PayloadAction<number>) => {
-            state.page = page.payload
-        }
     }
 })
 
