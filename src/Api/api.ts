@@ -8,7 +8,7 @@ const instance = axios.create({
 
 export const userAPI = {
     loginApi: (login: string, password: string) => {
-        return instance.post<LoginResponseType>("auth/login", {login: login, password: password})
+        return instance.post<LoginResponseType>("auth/login", { login: login, password: password })
     },
     logoutApi: () => {
         return instance.delete("auth/logout")
@@ -46,20 +46,58 @@ type LogResponseType = {
 export const employeesAPI = {
     getEmployees: (page: number) => {
         return instance.get<EmployeesResponseType>(`employees?page=${page}`)
+    },
+    getEmployeePhoto: (id: number) => {
+        return axios.get(`/employees/photo?id=${id}&t=${Date.now()}`, {
+            responseType: "blob",
+            baseURL: "http://localhost:8000/",
+            withCredentials: true,
+        });
+    },
+    getEmployee: (id: number) => {
+        return instance.get<EmployeeResponseType>(`/employee?id=${id}`)
+    },
+    postEmployee: (name: string, info: string, isAccess: boolean) => {
+        return instance.post<EmployeePostResponseType>('/employees', { name: name, info: info, isAccess: isAccess })
+    },
+    postEmployeePhoto: (id: number, formData: FormData) => {
+        return axios.post<RequestResultType>(`/employees/photo?id=${id}`, formData, {
+            baseURL: "http://localhost:8000/",
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            }
+        });
+    },
+    deleteEmployee: (id: number) => {
+        return instance.delete<RequestResultType>(`/employee?id=${id}`)
     }
+}
+
+type EmployeePostResponseType = {
+    id: number,
+    resultCode: number
+}
+
+type EmployeeType = {
+    id: number,
+    name: string,
+    info: string,
+    isAccess: boolean,
 }
 
 type EmployeeResponseType = {
     id: number,
     name: string,
     info: string,
-    is_access: boolean,
+    isAccess: boolean,
+    resultCode: number
 }
 
 export type EmployeesResponseType = {
     resultCode: number,
     count: number,
-    employees: Array<EmployeeResponseType>
+    employees: Array<EmployeeType>
 }
 
 export const usersAPI = {
@@ -67,7 +105,7 @@ export const usersAPI = {
         return instance.get<UsersResponseType>(`users?page=${page}`)
     },
     addUser: (login: string, password: string, accessLayerId: number) => {
-        return instance.post<RequestResultType>('users', {login, password, accessLayerId})
+        return instance.post<RequestResultType>('users', { login, password, accessLayerId })
     },
     getUser: (id: number) => {
         return instance.get<UserResponseType>(`user?id=${id}`)
@@ -76,10 +114,10 @@ export const usersAPI = {
         return instance.delete<RequestResultType>(`user?id=${id}`)
     },
     setNewPassword: (id: number, password: string) => {
-        return instance.post<RequestResultType>('user', {id, password})
+        return instance.post<RequestResultType>('user', { id, password })
     },
     setAccessLayer: (id: number, accessLayerId: number) => {
-        return instance.put<RequestResultType>('user', {id, accessLayerId})
+        return instance.put<RequestResultType>('user', { id, accessLayerId })
     }
 }
 

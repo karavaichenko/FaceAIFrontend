@@ -1,20 +1,34 @@
 
+.panel_container {
+    margin: 0 auto;
+    margin-top: 2rem;
+    width: 70vw;
+    display: flex;
+    /* align-items: center; */
+    justify-content: space-between;
+}
+
+.search {
+    width: 74%;
+}
+
+.add_btn {
+    width: 22%;
+}
+
 
 .container {
     margin: auto;
-    /* background-color: white; */
     width: 70vw;
     min-height: 78vh;
     border-radius: 1rem;
     padding: 1rem;
-    margin-top: 2rem;
     margin-bottom: 2rem;
-    /* box-shadow: 0 2px 16px rgba(0,0,0,.08); */
     border-radius: 3px;
     padding: 1rem 1.5rem;
     display: flex;
     flex-direction: column;
-    border: 1px solid rgb(112, 112, 112);
+    /* border: 1px solid rgb(112, 112, 112); */
 }
 
 .item {
@@ -28,16 +42,26 @@
     margin: 3px;
     color: rgb(26, 26, 26);
     margin: 5px 0;
-
+    /* width: 30vw; */
     box-shadow: 0 2px 16px rgba(0,0,0,.08);
     background-color: white;
 
 }
 
 .item_record {
-    width: 20%;
+    width: 21%;
     /* flex-shrink: 1; */
     text-align: center;
+}
+
+.item_record_image {
+    width: 21%;
+}
+
+.image {
+    height: 10vh;
+    display: block;
+    margin: 0 auto;
 }
 
 .header {
@@ -65,5 +89,78 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.container_add {
+    align-items: center;
+    justify-content: center;
+    height: 93vh;
+    display: flex;
+    text-align: center;
+    background-color: rgb(240, 240, 240);
+}
+
+.form_container {
+    box-shadow: 0 2px 16px rgba(0,0,0,.08);
+    width: 25vw;
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    background-color: white;
+    margin-bottom: 5vh;
+}
+
+.fit_warning {
+    margin-bottom: 1rem;
+}
+
+.field {
+    width: fit-content;
+    margin: 1.5rem auto;
+}
+
+.input {
+    width: 25vw;
+}
+
+.submit {
+    /* margin-top: 2rem; */
+    margin: 0.5rem;
+    width: fit-content;
+}
+
+.checkbox {
+    /* width: 10rem; */
+    height: 1.5rem;
+}
+
+.checkbox_field {
+    width: fit-content;
+    margin: 0 auto;
+    margin-bottom: -1rem;
+}
+
+.btn_container {
+    display: flex;
+    /* margin-top: -1rem; */
+    justify-content: center;
+}
+
+.photo_upload {
+    /* width: 1vh; */
+    margin: 0 auto;
+    display: block;
+    justify-items: center;
+}
+
+.upload_container {
+    margin: 0 auto;
+    padding-left: 25px;
+    margin-bottom: 1rem;
+    width: fit-content;
+}
+
+.paginator {
+    margin: 0 auto;
+    margin-top: 1rem;
 }
 

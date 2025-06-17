@@ -12,6 +12,14 @@ export const selectEmployeesState = (state: RootState) => {
     return state.employees
 }
 
+export const selectCurrentEmployee = (state: RootState) => {
+    return state.employees.currentEmployee
+}
+
+export const selectCurrentEmployeePhoto = (state: RootState) => {
+    return state.employees.currentEmployeePhoto
+}
+
 export const selectUsersState = (state: RootState) => {
     return state.users
 }

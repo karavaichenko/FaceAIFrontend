@@ -1,10 +1,11 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import s from './Content.module.css'
 import AccessLog from './AccessLog/AccessLog';
-import Employees from './Employees/Employees';
 import UsersContainer from './Users/UsersContainer';
 import { ProtectedRoute } from '../Containers/ProtectedRoute';
 import CurrentUser from './Users/CurrentUser/CurrentUser';
+import EmployeesConatiner from './Employees/EmployeesContainer';
+import CurrentEmployee from './Employees/CurrentEmployee/CurrentEmployee';
 
 const Content = () => {
 
@@ -25,7 +26,15 @@ const Content = () => {
             path: "/employees",
             element: (
                 <ProtectedRoute requiredAccessLevel={0}>
-                    <Employees />
+                    <EmployeesConatiner />
+                </ProtectedRoute>
+            )
+        },
+        {
+            path: "/employee",
+            element: (
+                <ProtectedRoute requiredAccessLevel={0}>
+                    <CurrentEmployee />
                 </ProtectedRoute>
             )
         },

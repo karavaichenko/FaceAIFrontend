@@ -93,7 +93,7 @@ export const getUserThunk = (id: number): AppThunk => (dispatch) => {
 export const deleteUserThunk = (id: number): AppThunk => (dispatch) => {
     usersAPI.deleteUser(id)
     .then((data) => {
-        if (data.data.resultCode === 0) {
+        if (data.data.resultCode === 101) {
             dispatch(deleteUser())
         } else {
             // 

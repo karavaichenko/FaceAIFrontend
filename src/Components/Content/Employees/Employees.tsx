@@ -4,10 +4,19 @@ import s from './Employees.module.css'
 import { useAppDispatch } from "../../../Store/hooks"
 import { useSelector } from "react-redux"
 import { selectEmployeesState } from "../../../Store/selectors"
-import { useEffect } from "react"
-import { getEmployees } from "../../../Store/employeesReducer"
+import { useEffect, type SetStateAction } from "react"
+import { getEmployees, getEmployeesPhotos } from "../../../Store/employeesReducer"
+import { Button, Input, Pagination } from "antd"
 
-const Employees = () => {
+
+const { Search } = Input;
+
+type PropsType = {
+    setMode: React.Dispatch<SetStateAction<boolean>>
+}
+
+
+const Employees = (props: PropsType) => {
 
     const dispatch = useAppDispatch()
     const state = useSelector(selectEmployeesState)
@@ -19,25 +28,46 @@ const Employees = () => {
     useEffect(() => {
         dispatch(getEmployees(page))
     }, [])
+    useEffect(() => {
+        const ids = state.employees.map((e) => {return e.id})
+        dispatch(getEmployeesPhotos(ids))
+    }, [state.employees])
 
+    const onPageChange = (page: number, ) => {
+        const newParams = new URLSearchParams(searchParams)
+        newParams.set("page", String(page))
+        setSearchParams(newParams)
+        dispatch(getEmployees(page))
+    }
 
-    const elems = state.employees.map((e) => {
+    const elems = state.employees.map((e, ind) => {
         return (
-            <Link to={`employees?page=${e.id}`} className={s.item}>
-                <img className={s.item_record_image}>
-
-                </img>
+            <Link to={`/employee?id=${e.id}`} className={s.item}>
+                <div className={s.item_record_image}>
+                    <img src={state.photosUrl[ind]} className={s.image}></img>
+                </div>
                 <div className={s.item_record}>{e.name}</div>
-                <div className={s.item_record}>{e.is_access}</div>
+                <div className={s.item_record}>{e.isAccess ? "разрешён" : "запрещён"}</div>
                 <div className={s.item_record}>{e.info}</div>
             </Link>
         )
     })
 
-
     return (
         <div>
             <Menu />
+            <div className={s.panel_container}>
+                <Search className={s.search}
+                placeholder="ФИО"
+                allowClear
+                enterButton="Search"
+                size="large"
+                // onSearch={onSearch}
+                />
+
+                <Button onClick={() => {props.setMode(true)}} className={s.add_btn} type="primary" size="large">Добавить сотрудника</Button>
+
+            </div>
             <div className={s.container}>
                 <div className={s.header}>
                     <div className={s.header_item}>Фото</div>
@@ -46,11 +76,9 @@ const Employees = () => {
                     <div className={s.header_item}>Доп. информация</div>
                 </div>
                 {elems}
-                <Link to="/access/2" className={s.item}>
-                    <img className={s.item_record_image} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI-SaYWlXmVicHWYEEpRgrmFir507tWQk3pA&s" alt="" />
-                    <div className={s.item_record}>Иван Каравайченко</div>
-                    <div className={s.item_record}>Доп информации нет</div>
-                </Link>
+                <div className={s.paginator}>
+                    <Pagination onChange={onPageChange} total={state.count} current={page}/>
+                </div>
             </div>
         </div>
     )
