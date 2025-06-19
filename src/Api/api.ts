@@ -27,7 +27,17 @@ type LoginResponseType = {
 export const accessLogsAPI = {
     getLogs: (page: number) => {
         return instance.get<AccessLogsResponseType>(`accessLogs?page=${page}`)
-    }
+    },
+    getCurrentLog: (id: number) => {
+        return instance.get<CurrentLogResponseType>(`accessLog?id=${id}`)
+    },
+    getAccessLogPhoto: (id: number) => {
+        return axios.get(`/accessLog/photo?id=${id}&t=${Date.now()}`, {
+            responseType: "blob",
+            baseURL: "http://localhost:8000/",
+            withCredentials: true,
+        });
+    },
 }
 
 export type AccessLogsResponseType = {
@@ -43,9 +53,20 @@ type LogResponseType = {
     access: boolean
 }
 
+export type CurrentLogResponseType = {
+    id: number
+    name: string
+    time: string
+    access: boolean
+    resultCode: number
+}
+
 export const employeesAPI = {
     getEmployees: (page: number) => {
         return instance.get<EmployeesResponseType>(`employees?page=${page}`)
+    },
+    searchEmployees: (page: number, substr: string) => {
+        return instance.get<EmployeesResponseType>(`employees?page=${page}&substr=${substr}`)
     },
     getEmployeePhoto: (id: number) => {
         return axios.get(`/employees/photo?id=${id}&t=${Date.now()}`, {
@@ -71,6 +92,9 @@ export const employeesAPI = {
     },
     deleteEmployee: (id: number) => {
         return instance.delete<RequestResultType>(`/employee?id=${id}`)
+    },
+    updateEmployeeData: (id: number, name: string, info: string, isAccess: boolean) => {
+        return instance.put<RequestResultType>('/employee', {id: id, name: name, info: info, isAccess: isAccess})
     }
 }
 

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import type { PayloadAction, ThunkAction, UnknownAction } from "@reduxjs/toolkit" 
 import type { RootState } from "./store"
-import { accessLogsAPI, type AccessLogsResponseType } from "../Api/api"
+import { accessLogsAPI, type AccessLogsResponseType, type CurrentLogResponseType } from "../Api/api"
 
 type LogType ={
     id: number,
@@ -12,6 +12,8 @@ type LogType ={
 
 type LogsStateType = {
     resultCode: number,
+    currentLog: LogType | null,
+    currentLogPhoto: string | null,
     count: number,
     logs: Array<LogType>,
 }
@@ -25,6 +27,8 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 >
 
 const initialState: LogsStateType = {
+    currentLogPhoto: null, 
+    currentLog: null,
     resultCode: -1,
     count: 0,
     logs: [],
@@ -39,10 +43,20 @@ const accessLogSlice = createSlice({
             state.resultCode = newState.payload.resultCode
             state.logs = newState.payload.logs
         },
+        setCurrentLog: (state, currentLog: PayloadAction<CurrentLogResponseType>) => {
+            state.currentLog = currentLog.payload
+        },
+        setCurrentLogPhoto: (state, photoUrl: PayloadAction<string>) => {
+            state.currentLogPhoto = photoUrl.payload
+        },
+        resetCurrentLog: (state) => {
+            state.currentLog = initialState.currentLog
+            state.currentLogPhoto = initialState.currentLogPhoto
+        }
     }
 })
 
-export const {setLogsState} = accessLogSlice.actions
+export const {setLogsState, setCurrentLog, setCurrentLogPhoto, resetCurrentLog} = accessLogSlice.actions
 
 export const getAccessLogs = (page: number): AppThunk => (dispatch) => {
     accessLogsAPI.getLogs(page)
@@ -56,6 +70,23 @@ export const getAccessLogs = (page: number): AppThunk => (dispatch) => {
     })
 }
 
+export const getCurrentAccessLog = (id: number): AppThunk => (dispatch) => {
+    accessLogsAPI.getCurrentLog(id)
+    .then((data) => {
+        if (data.data.resultCode === 0) {
+            dispatch(setCurrentLog(data.data))
+        } else {
+            // 
+        }
+    })
+}
+
+export const getLogPhotoThunk = (id: number): AppThunk => (dispacth) => {
+    accessLogsAPI.getAccessLogPhoto(id)
+    .then((data) => {
+        dispacth(setCurrentLogPhoto(URL.createObjectURL(data.data)))
+    })
+}
 
 
 export default accessLogSlice

@@ -54,6 +54,9 @@ const usersSlice = createSlice({
         deleteUser: (state) => {
             state.currentUser = null
         },
+        resetCurrentUser: (state) => {
+            state.currentUser = initialState.currentUser
+        },
         setUserAccessLayer: (state, accessLayer: PayloadAction<number>) => {
             if (state.currentUser !== null) {
                 state.currentUser.accessLayer = accessLayer.payload
@@ -62,7 +65,7 @@ const usersSlice = createSlice({
     }
 })
 
-export const {setUsersState, setResultCode, setCurrentUser, deleteUser, setUserAccessLayer} = usersSlice.actions
+export const {setUsersState, setResultCode, setCurrentUser, deleteUser, setUserAccessLayer, resetCurrentUser} = usersSlice.actions
 
 export const getUsers = (page: number): AppThunk => (dispatch) => {
     usersAPI.getUsers(page)
@@ -112,7 +115,9 @@ export const setUserAccessThunk = (id: number, accessLayerId: number): AppThunk 
     usersAPI.setAccessLayer(id, accessLayerId)
     .then((data) => {
         dispatch(setResultCode(data.data.resultCode))
-        dispatch(setUserAccessLayer(accessLayerId))
+        if (data.data.resultCode === 102) {
+            dispatch(setUserAccessLayer(accessLayerId))
+        }
     })
 }
 

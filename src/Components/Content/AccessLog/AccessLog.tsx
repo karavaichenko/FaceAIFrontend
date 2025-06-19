@@ -31,7 +31,7 @@ const AccessLog = () => {
 
     const logsElem = state.logs.map((e) => {
         return (
-            <Link key={e.id} to={`/access/${e.id}`} className={s.item}>
+            <Link key={e.id} to={`/access?id=${e.id}`} className={s.item}>
                 <div className={s.item_record}>{e.name}</div>
                 <div className={s.item_record}>{e.access ? "Разрешён" : "Не разрешён"}</div>
                 <div className={s.item_record}>{e.time}</div>

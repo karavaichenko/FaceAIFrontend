@@ -1,19 +1,16 @@
 import { useEffect, useState, type SetStateAction } from 'react'
 import s from './Employees.module.css'
-import { Alert, Button, Checkbox, Form, Input, Upload, type GetProp } from 'antd'
+import { Alert, Button, Checkbox, Form, Input } from 'antd'
 import { useAppDispatch } from '../../../Store/hooks'
 import { useSelector } from 'react-redux'
 import { selectEmployeesState } from '../../../Store/selectors'
 import { postEmployeeThunk, setResultCode } from '../../../Store/employeesReducer'
 import Menu from '../Menu/Menu'
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import type { UploadProps } from 'antd/es/upload'
+import EmployeePhotoUpload from './EmployeePhotoUpload'
 
 type PropsType = {
     setMode: React.Dispatch<SetStateAction<boolean>>
 }
-
-type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
 
 const EmployeeAddForm = (props: PropsType) => {
@@ -22,8 +19,6 @@ const EmployeeAddForm = (props: PropsType) => {
     const state = useSelector(selectEmployeesState)
 
     const [warning, setWarning] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [imageUrl, setImageUrl] = useState<string>();
     const [file, setFile] = useState<File | null>(null);
 
     let warningElem
@@ -55,48 +50,6 @@ const EmployeeAddForm = (props: PropsType) => {
         props.setMode(false)
     }
 
-
-    
-    const getBase64 = (img: FileType, callback: (url: string) => void) => {
-        const reader = new FileReader();
-        reader.addEventListener('load', () => callback(reader.result as string));
-        reader.readAsDataURL(img);
-    };
-
-    const beforeUpload = (file: File) => {
-        const isImage = file.type.startsWith('image/');
-        if (!isImage) {
-            setWarning('Можно загружать только изображения!');
-        }
-        const isLt5M = file.size / 1024 / 1024 < 5;
-        if (!isLt5M) {
-            setWarning('Изображение должно быть меньше 5MB!');
-        }
-        return isImage && isLt5M;
-    };
-
-    const handleChange: UploadProps['onChange'] = (info) => {
-        if (info.file.status === 'uploading') {
-        setLoading(true);
-        return;
-        }
-        if (info.file.status === 'done') {
-        const file = info.file.originFileObj as File;
-        setFile(file);
-        getBase64(info.file.originFileObj as FileType, (url) => {
-            setLoading(false);
-            setImageUrl(url);
-        });
-        }
-    };
-
-    const uploadButton = (
-        <button style={{ border: 0, background: 'none' }} type="button">
-            {loading ? <LoadingOutlined /> : <PlusOutlined />}
-            <div style={{ marginTop: 8 }}>Upload</div>
-        </button>
-    )
-
     return (
         <div>
             <Menu />
@@ -122,22 +75,8 @@ const EmployeeAddForm = (props: PropsType) => {
                                 className={s.upload_container}
                                 rules={[{ required: true, message: 'Загрузите фото' }]}
                             >
-                                <Upload
-                                    name="photo"
-                                    listType="picture-card"
-                                    className={s.photo_upload}
-                                    showUploadList={false}
-                                    beforeUpload={beforeUpload}
-                                    onChange={handleChange}
-                                    customRequest={({ onSuccess }) => {
-                                        setTimeout(() => {
-                                        onSuccess?.("ok");
-                                        }, 0);
-                                    }}
-                                    >
-                                    {/* {uploadButton} */}
-                                    {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-                                </Upload>
+                                
+                                <EmployeePhotoUpload setFile={setFile} setWarning={setWarning}/>
 
                             </Form.Item>
 

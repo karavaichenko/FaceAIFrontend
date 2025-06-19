@@ -3,7 +3,7 @@ import type { PayloadAction, ThunkAction, UnknownAction } from "@reduxjs/toolkit
 import type { RootState } from "./store"
 import { employeesAPI, type EmployeesResponseType } from "../Api/api"
 
-type EmployeeType = {
+export type EmployeeType = {
     id: number,
     name: string,
     info: string,
@@ -60,11 +60,15 @@ const employeesSlice = createSlice({
         deleteCurrentEmployee: (state) => {
             state.currentEmployeePhoto = null
             state.currentEmployee = null
+        },
+        resetCurrentEmployee: (state) => {
+            state.currentEmployee = initialState.currentEmployee
+            state.currentEmployeePhoto = initialState.currentEmployeePhoto
         }
     }
 })
 
-export const { setEmployeesState, setEmployeesPhotos, setResultCode, setCurrentEmployee, setCurrentEmployeePhoto, deleteCurrentEmployee } = employeesSlice.actions
+export const { setEmployeesState, setEmployeesPhotos, setResultCode, setCurrentEmployee, setCurrentEmployeePhoto, deleteCurrentEmployee, resetCurrentEmployee } = employeesSlice.actions
 
 export const getEmployees = (page: number): AppThunk => (dispatch) => {
     employeesAPI.getEmployees(page)
@@ -73,9 +77,19 @@ export const getEmployees = (page: number): AppThunk => (dispatch) => {
                 dispatch(setEmployeesState(data.data))
             } else {
                 // catch error
-                alert("err")
             }
         })
+}
+
+export const searchEmployeesThunk = (page: number, substr: string): AppThunk => (dispatch) => {
+    employeesAPI.searchEmployees(page, substr)
+    .then((data) => {
+        if (data.data.resultCode === 0) {
+            dispatch(setEmployeesState(data.data))
+        } else {
+            // 
+        }
+    })
 }
 
 export const getEmployeesPhotos = (ids: number[]): AppThunk => async (dispatch) => {
@@ -145,6 +159,16 @@ export const deleteEmployeeThunk = (id: number): AppThunk => (dispatch) => {
         } else {
             // 
         }
+    })
+}
+
+export const updateEmployeeDataThunk = (id: number, name: string, info: string, isAccess: boolean): AppThunk => (dispatch) => {
+    employeesAPI.updateEmployeeData(id, name, info, isAccess)
+    .then((data) => {
+        dispatch(setResultCode(data.data.resultCode))    
+        if (data.data.resultCode === 102) {
+            dispatch(setCurrentEmployee({id, name, info, isAccess}))
+        }   
     })
 }
 

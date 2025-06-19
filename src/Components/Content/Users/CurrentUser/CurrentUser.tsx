@@ -4,7 +4,7 @@ import s from './CurrentUser.module.css'
 import { selectCurrentUser, selectUserResultCode } from '../../../../Store/selectors'
 import { useEffect, useState } from 'react'
 import { useAppDispatch } from '../../../../Store/hooks'
-import { getUserThunk } from '../../../../Store/usersReducer'
+import { getUserThunk, resetCurrentUser } from '../../../../Store/usersReducer'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Button, Switch } from 'antd'
 import DeleteConfirm from './Windows/DeleteConfirm'
@@ -18,11 +18,14 @@ const CurrentUser = () => {
     const dispatch = useAppDispatch()
 
     const [searchParams, ] = useSearchParams()
-    const user_id = Number(searchParams.get('id')) || 1
+    const user_id = Number(searchParams.get('id'))
     const navigate = useNavigate()
 
     useEffect(() => {
         dispatch(getUserThunk(user_id))
+        return () => {
+            dispatch(resetCurrentUser())
+        }
     }, [])
 
 
@@ -47,7 +50,7 @@ const CurrentUser = () => {
                                 <div>{state?.accessLayer === 0 ? "администратор" : "оператор"}</div>
                             </div>
                         </div>
-
+                        {state?.login !== "admin" ?
                         <div className={s.btn_container}>
 
                             <div className={s.switch_container}>
@@ -58,6 +61,10 @@ const CurrentUser = () => {
                             <Button className={s.delete_btn} onClick={() => setDeleteConfirm(true)} type='primary' danger={true}>Удалить</Button>
 
                         </div>
+                        :
+                            <Button className={s.password_btn} danger={true} onClick={() => {setChangePasswConfirm(true)}}>Изменить пароль</Button>
+
+                        }
 
 
                     </div>

@@ -33,6 +33,11 @@
     display: flex;
 }
 
+.password_btn {
+    margin-top: 5rem;
+
+}
+
 .delete_btn {
     margin-left: auto;
 }

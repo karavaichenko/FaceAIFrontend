@@ -5,7 +5,7 @@ import { useAppDispatch } from "../../../Store/hooks"
 import { useSelector } from "react-redux"
 import { selectEmployeesState } from "../../../Store/selectors"
 import { useEffect, type SetStateAction } from "react"
-import { getEmployees, getEmployeesPhotos } from "../../../Store/employeesReducer"
+import { getEmployees, getEmployeesPhotos, searchEmployeesThunk } from "../../../Store/employeesReducer"
 import { Button, Input, Pagination } from "antd"
 
 
@@ -53,6 +53,15 @@ const Employees = (props: PropsType) => {
         )
     })
 
+    const onSearch = (value: string) => {
+        if (value) {
+            dispatch(searchEmployeesThunk(page, value))
+        } else {
+            dispatch(getEmployees(page))
+        }
+    }
+
+
     return (
         <div>
             <Menu />
@@ -62,7 +71,8 @@ const Employees = (props: PropsType) => {
                 allowClear
                 enterButton="Search"
                 size="large"
-                // onSearch={onSearch}
+                onSearch={onSearch}
+                onChange={(e) => {onSearch(e.target.value)}}
                 />
 
                 <Button onClick={() => {props.setMode(true)}} className={s.add_btn} type="primary" size="large">Добавить сотрудника</Button>

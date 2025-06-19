@@ -6,13 +6,22 @@ import { ProtectedRoute } from '../Containers/ProtectedRoute';
 import CurrentUser from './Users/CurrentUser/CurrentUser';
 import EmployeesConatiner from './Employees/EmployeesContainer';
 import CurrentEmployee from './Employees/CurrentEmployee/CurrentEmployee';
+import CurrentAccessLog from './AccessLog/CurrentAccessLog/CurrentAccessLog';
 
 const Content = () => {
 
     const router = createBrowserRouter([
         {
             path: "/",
-            Component: AccessLog,
+            element: (
+                <AccessLog />
+            ),
+        },
+        {
+            path: "/access",
+            element: (
+                <CurrentAccessLog />
+            )
         },
         {
             path: "/users",

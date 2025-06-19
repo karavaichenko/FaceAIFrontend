@@ -1,7 +1,5 @@
 
 
-
-
 .container {
     align-items: center;
     justify-content: center;
@@ -17,7 +15,7 @@
     width: 30vw;
     min-width: fit-content;
     border-radius: 12px;
-    padding: 1.5rem 3rem;
+    padding: 1.5rem 2.5rem;
     background-color: white;
     /* margin-bottom: 5vh; */
 }
@@ -26,17 +24,21 @@
     margin-top: 1.5rem;
 }
 
-.photo {
-    height: 20vh;
-    border: 2px solid rgb(179, 179, 179);
-    border-radius: 5px;
+.log_container {
+    display: flex;
+    gap: 1rem;
+    /* justify-content: space-between; */
 }
 
-.labels_container {
+.photo {
+    height: 20vh;
+}
+
+.data_conatiner {
     display: flex;
-    width: 100%;
-    gap: 0.4rem;
     flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
 }
 
 .label {
@@ -49,22 +51,4 @@
 
 .data {
     color: black;
-}
-
-.employee_container {
-    display: flex;
-    gap: 1rem;
-    justify-content: space-between;
-}
-
-.btn_container {
-    margin-top: 5rem;
-    flex: 1 1 2;
-    gap: 1rem;
-    display: flex;
-    /* justify-content: space-between; */
-}
-
-.delete_btn {
-    margin-left: auto;
 }
