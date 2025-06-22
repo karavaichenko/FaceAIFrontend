@@ -1,0 +1,24 @@
+
+
+.container {
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(128, 128, 128, 0.527);
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.form_container {
+    box-shadow: 0 2px 16px rgba(0,0,0,.08);
+    min-width: fit-content;
+    border-radius: 12px;
+    padding: 1.5rem 3rem;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}

@@ -6,7 +6,7 @@ import { Button } from 'antd'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useAppDispatch } from '../../../../Store/hooks'
-import { getEmployeePhotoThunk, getEmployeeThunk, resetCurrentEmployee, setCurrentEmployee } from '../../../../Store/employeesReducer'
+import { getEmployeePhotoThunk, getEmployeeThunk, resetCurrentEmployee } from '../../../../Store/employeesReducer'
 import DeleteConfirm from './Windows/DeleteConfirm'
 import ChangeInfoForm from './Windows/ChangeInfoForm'
 import ChangePhotoForm from './Windows/ChangePhotoForm'
@@ -69,6 +69,13 @@ const CurrentEmployee = () => {
 
 
                         </div>
+                        {state?.id === 0 ? 
+                        <div className={s.btn_container}>
+
+                            <Button size='large' type='primary' onClick={() => {setChangeInfoForm(true)}}>Изменить данные</Button>
+
+                        </div> 
+                        :
                         <div className={s.btn_container}>
 
                             <Button size='large' type='primary' onClick={() => {setChangeInfoForm(true)}}>Изменить данные</Button>
@@ -76,6 +83,7 @@ const CurrentEmployee = () => {
                             <Button size='large' onClick={() => {setDeleteConfirm(true)}} className={s.delete_btn} type='primary' danger={true}>Удалить</Button>
 
                         </div>
+                        }
                     </div>
                         <Button size='large' className={s.exit_btn} onClick={() => {navigate(-1)}}>Назад</Button>
                 </div>
