@@ -33,7 +33,7 @@ const Users = (props: PropsType) => {
 
     const usersElem = state.users.map((e) => {
         return (
-            <Link to={`/user?id=${e.id}`} className={s.item}>
+            <Link key={e.id} to={`/user?id=${e.id}`} className={s.item}>
                 <div className={s.item_record}>{e.id}</div>
                 <div className={s.item_record}>{e.login}</div>
                 <div className={s.item_record}>{e.accessLayer === 0 ? "Полные" : "Частичные"}</div>

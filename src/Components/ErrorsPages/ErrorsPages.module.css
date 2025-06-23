@@ -1,0 +1,19 @@
+.container {
+    align-items: center;
+    justify-content: center;
+    height: 78vh;
+    display: flex;
+    text-align: center;
+    background-color: rgb(240, 240, 240);
+    padding-bottom: 10vh;
+}
+
+.form_container {
+    box-shadow: 0 2px 16px rgba(0,0,0,.08);
+    width: 30vw;
+    min-width: fit-content;
+    border-radius: 12px;
+    padding: 1.5rem 3rem;
+    background-color: white;
+    /* margin-bottom: 5vh; */
+}

@@ -6,6 +6,7 @@ import { authThunk, loginThunk } from '../../Store/userReducer'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectUserState } from '../../Store/selectors'
+import ServerDisable from '../ErrorsPages/ServerDisable'
 
 const Login = () => {
 
@@ -44,7 +45,7 @@ const Login = () => {
     return (
         <div>
             <Header />
-            {state.resultCode === -1 ? <div></div> : 
+            {state.resultCode === -1 ? <ServerDisable /> : 
             <div className={s.container}>
                 <div>
                     {warningElem}
@@ -72,7 +73,8 @@ const Login = () => {
                         <Form.Item<FieldType>
                             className={s.field}
                             name="password"
-                            rules={[{ required: true, message: 'Введите ваш пароль!' }]}
+                            rules={[{ required: true, message: 'Введите ваш пароль!' }, 
+                                {pattern: /^[A-Za-z0-9!@#$%^&*()_+-=[\]{};':"\\|,.<>/?]*$/, message: "Недопустиые символы"}]}
                             >
                             <Input.Password className={s.input} placeholder="password" />
                         </Form.Item>

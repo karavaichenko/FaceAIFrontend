@@ -42,7 +42,7 @@ const Employees = (props: PropsType) => {
 
     const elems = state.employees.map((e, ind) => {
         return (
-            <Link to={`/employee?id=${e.id}`} className={s.item}>
+            <Link key={e.id} to={`/employee?id=${e.id}`} className={s.item}>
                 <div className={s.item_record_image}>
                     <img src={state.photosUrl[ind]} className={s.image}></img>
                 </div>

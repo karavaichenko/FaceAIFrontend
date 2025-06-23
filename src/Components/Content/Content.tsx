@@ -8,6 +8,7 @@ import EmployeesConatiner from './Employees/EmployeesContainer';
 import CurrentEmployee from './Employees/CurrentEmployee/CurrentEmployee';
 import CurrentAccessLog from './AccessLog/CurrentAccessLog/CurrentAccessLog';
 import AccessLogsNotify from '../Notifications/AccessLogsNotify';
+import { BASE_WS_URL } from '../../Api/api';
 
 const Content = () => {
 
@@ -62,7 +63,7 @@ const Content = () => {
 
     return (
         <div className={s.container}>
-            <AccessLogsNotify url="ws://localhost:8000/ws"/>
+            <AccessLogsNotify url={BASE_WS_URL + '/ws'}/>
             <RouterProvider router={router} />
         </div>
     )

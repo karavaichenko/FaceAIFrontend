@@ -1,7 +1,10 @@
 import axios from "axios";
 
+export const BASE_API_URL = import.meta.env.VITE_API_BASE_URL
+export const BASE_WS_URL = import.meta.env.VITE_WS_BASE_URL
+
 const instance = axios.create({
-    baseURL: "http://localhost:8000/",
+    baseURL: BASE_API_URL,
     withCredentials: true,
     headers: { "Content-Type": "application/json" }
 })
@@ -34,7 +37,7 @@ export const accessLogsAPI = {
     getAccessLogPhoto: (id: number) => {
         return axios.get(`/accessLog/photo?id=${id}&t=${Date.now()}`, {
             responseType: "blob",
-            baseURL: "http://localhost:8000/",
+            baseURL: BASE_API_URL,
             withCredentials: true,
         });
     },
@@ -71,7 +74,7 @@ export const employeesAPI = {
     getEmployeePhoto: (id: number) => {
         return axios.get(`/employees/photo?id=${id}&t=${Date.now()}`, {
             responseType: "blob",
-            baseURL: "http://localhost:8000/",
+            baseURL: BASE_API_URL,
             withCredentials: true,
         });
     },
@@ -83,7 +86,7 @@ export const employeesAPI = {
     },
     postEmployeePhoto: (id: number, formData: FormData) => {
         return axios.post<RequestResultType>(`/employees/photo?id=${id}`, formData, {
-            baseURL: "http://localhost:8000/",
+            baseURL: BASE_API_URL,
             withCredentials: true,
             headers: {
                 'Content-Type': 'multipart/form-data',

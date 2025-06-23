@@ -72,7 +72,8 @@ const UserAddForm = (props: PropsType) => {
                             <Form.Item<FieldType>
                                 className={s.field}
                                 name="password"
-                                rules={[{ required: true, message: 'Введите ваш пароль!' }]}
+                                rules={[{ required: true, message: 'Введите ваш пароль!' }, 
+                                    {pattern: /^[A-Za-z0-9!@#$%^&*()_+-=[\]{};':"\\|,.<>/?]*$/, message: "Недопустиые символы"}]}
                             >
                                 <Input.Password className={s.input} placeholder="пароль" />
                             </Form.Item>
