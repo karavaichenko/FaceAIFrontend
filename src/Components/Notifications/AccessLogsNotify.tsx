@@ -10,18 +10,34 @@ type PropsType = {
 
 const AccessLogsNotify = (props: PropsType) => {
 
-    const [isAccess, setIsAccess] = useState(true)
+     const [isAccess, setIsAccess] = useState(true)
+    const [_ws, setWs] = useState<WebSocket | null>(null)
     const dispatch = useAppDispatch()
-    useEffect(() => {
 
-        const ws = new WebSocket(props.url)
-        ws.onmessage = (event) => {
-            const message = event.data;
+    useEffect(() => {
+        const websocket = new WebSocket(props.url)
+        setWs(websocket)
+
+        websocket.onmessage = (event) => {
+            const message = event.data
             setIsAccess(message == "1")
             dispatch(getAccessLogs(1))
         }
 
-    }, [props.url])
+
+        websocket.onclose = (event) => {
+            if (!event.wasClean) {
+                console.log('WebSocket соединение прервано')
+                setTimeout(() => {
+                    setWs(new WebSocket(props.url))
+                }, 5000)
+            }
+        }
+
+        return () => {
+            websocket.close()
+        }
+    }, [props.url, dispatch])
     
     if (!isAccess) {
         return (

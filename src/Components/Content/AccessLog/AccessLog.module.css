@@ -14,7 +14,7 @@
     padding: 1rem 1.5rem;
     display: flex;
     flex-direction: column;
-    border: 1px solid rgb(112, 112, 112);
+    border: 1px solid rgb(201, 201, 201);
 }
 
 .item {
@@ -38,6 +38,17 @@
     width: 20%;
     /* flex-shrink: 1; */
     text-align: center;
+}
+
+.item_record_img {
+    width: 20%;
+    /* flex-shrink: 1; */
+    text-align: center;
+}
+
+.image {
+    height: 17vh;
+    margin: 0.5rem 0;
 }
 
 .header {

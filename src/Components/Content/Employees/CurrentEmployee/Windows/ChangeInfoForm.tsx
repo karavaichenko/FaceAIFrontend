@@ -35,7 +35,7 @@ const ChangeInfoForm = (props: PropsType) => {
     const onFinish = (e: FieldType) => {
         const name = e.name ? e.name : props.employee?.name
         const info = e.info ? e.info : props.employee?.info
-        const isAccess = e.isAccess ? e.isAccess : props.employee?.isAccess
+        const isAccess = e.isAccess !== undefined ? e.isAccess : props.employee?.isAccess
         if (props.employee?.id && name && info && isAccess !== undefined) {
             dispatch(updateEmployeeDataThunk(props.employee?.id, name, info, isAccess))
         } else {

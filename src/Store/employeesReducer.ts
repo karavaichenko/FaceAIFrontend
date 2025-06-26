@@ -96,18 +96,18 @@ export const getEmployeesPhotos = (ids: number[]): AppThunk => async (dispatch) 
     try {
         const photosPromises = ids.map(async (id) => {
             try {
-                const response = await employeesAPI.getEmployeePhoto(id);
-                return URL.createObjectURL(response.data);
+                const response = await employeesAPI.getEmployeePhoto(id)
+                return URL.createObjectURL(response.data)
             } catch (error) {
                 console.error(`Ошибка загрузки фото для сотрудника ${id}:`, error);
-                return '';
+                return ''
             }
         });
 
         const photosUrls = await Promise.all(photosPromises);
         dispatch(setEmployeesPhotos(photosUrls));
     } catch (error) {
-        console.error('Ошибка в getEmployeesPhotos:', error);
+        console.error('Ошибка в getEmployeesPhotos: ', error);
     }
 };
 

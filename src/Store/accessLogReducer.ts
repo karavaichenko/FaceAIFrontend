@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 import type { PayloadAction, ThunkAction, UnknownAction } from "@reduxjs/toolkit" 
 import type { RootState } from "./store"
 import { accessLogsAPI, type AccessLogsResponseType, type CurrentLogResponseType } from "../Api/api"
+import { authThunk } from "./userReducer"
 
 type LogType ={
     id: number,
@@ -16,6 +17,7 @@ type LogsStateType = {
     currentLogPhoto: string | null,
     count: number,
     logs: Array<LogType>,
+    photosUrl: Array<string>
 }
 
 
@@ -27,6 +29,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 >
 
 const initialState: LogsStateType = {
+    photosUrl: [],
     currentLogPhoto: null, 
     currentLog: null,
     resultCode: -1,
@@ -52,11 +55,14 @@ const accessLogSlice = createSlice({
         resetCurrentLog: (state) => {
             state.currentLog = initialState.currentLog
             state.currentLogPhoto = initialState.currentLogPhoto
+        }, 
+        setAccessLogsPhotos: (state, urls: PayloadAction<Array<string>>) => {
+            state.photosUrl = urls.payload
         }
     }
 })
 
-export const {setLogsState, setCurrentLog, setCurrentLogPhoto, resetCurrentLog} = accessLogSlice.actions
+export const {setLogsState, setCurrentLog, setCurrentLogPhoto, resetCurrentLog, setAccessLogsPhotos} = accessLogSlice.actions
 
 export const getAccessLogs = (page: number): AppThunk => (dispatch) => {
     accessLogsAPI.getLogs(page)
@@ -64,8 +70,9 @@ export const getAccessLogs = (page: number): AppThunk => (dispatch) => {
         if (data.data.resultCode === 0) {
             dispatch(setLogsState(data.data))
         } else {
-            // catch error
-            alert("err")
+            if (data.data.resultCode === 3) {
+                dispatch(authThunk())
+            }
         }
     })
 }
@@ -76,7 +83,9 @@ export const getCurrentAccessLog = (id: number): AppThunk => (dispatch) => {
         if (data.data.resultCode === 0) {
             dispatch(setCurrentLog(data.data))
         } else {
-            // 
+            if (data.data.resultCode === 3) {
+                dispatch(authThunk())
+            }
         }
     })
 }
@@ -86,6 +95,25 @@ export const getLogPhotoThunk = (id: number): AppThunk => (dispacth) => {
     .then((data) => {
         dispacth(setCurrentLogPhoto(URL.createObjectURL(data.data)))
     })
+}
+
+export const getAccessLogsPhotos = (ids: number[]): AppThunk => async (dispatch) => {
+    try {
+        const photosPromises = ids.map(async (id) => {
+            try {
+                const resposne = await accessLogsAPI.getAccessLogPhoto(id)
+                return URL.createObjectURL(resposne.data)
+            } catch (error) {
+                console.error(`Ошибка загрузки фото для лога ${id}:`, error);
+                return ''
+            }
+        })
+
+        const photosUrls = await Promise.all(photosPromises)
+        dispatch(setAccessLogsPhotos(photosUrls))
+    } catch (error) {
+        console.error("Ошибка в getAccessLogsPhotos: ", error);
+    }
 }
 
 
