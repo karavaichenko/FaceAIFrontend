@@ -16,7 +16,6 @@ const AccessLogsNotify = (props: PropsType) => {
 
         const ws = new WebSocket(props.url)
         ws.onmessage = (event) => {
-            debugger
             const message = event.data;
             setIsAccess(message == "1")
             dispatch(getAccessLogs(1))
