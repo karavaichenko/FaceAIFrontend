@@ -6,7 +6,7 @@ export const BASE_WS_URL = import.meta.env.VITE_WS_BASE_URL
 const instance = axios.create({
     baseURL: BASE_API_URL,
     withCredentials: true,
-    headers: { "Content-Type": "application/json" }
+    headers: { "Content-Type": "application/json" },
 })
 
 export const userAPI = {
