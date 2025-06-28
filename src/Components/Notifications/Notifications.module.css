@@ -1,15 +1,15 @@
 
 
 .container {
-    position: absolute;
+    position: fixed;
     top: 0;
     width: 100vw;
     height: 100vh;
+    overflow-y: hidden;
     background-color: rgba(128, 128, 128, 0.527);
     align-items: center;
     justify-content: center;
     display: flex;
-    flex-direction: column;
 }
 
 .form_container {

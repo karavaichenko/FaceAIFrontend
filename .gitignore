@@ -26,3 +26,6 @@ dist-ssr
 # ENV
 .env.development
 .env.production
+
+# CERTS
+*.pem
